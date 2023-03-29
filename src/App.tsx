@@ -1,5 +1,5 @@
 import { Container } from '@chakra-ui/react';
-import Survey from './survey/Survey';
+import Survey from './survey/components/Survey';
 
 function App() {
   return (

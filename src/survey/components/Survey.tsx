@@ -1,7 +1,6 @@
 import {
   Heading,
   VStack,
-  Text,
   FormControl,
   FormLabel,
   Input,
@@ -12,9 +11,13 @@ import {
   Stack,
   Button,
   HStack,
+  Box,
 } from '@chakra-ui/react';
+import useSurvey from '../hooks/useSurvery';
 
 const Survey = () => {
+  const { data } = useSurvey();
+
   return (
     <Stack spacing="4" marginY={4}>
       <Card size="lg" borderRadius="lg">
@@ -22,10 +25,10 @@ const Survey = () => {
           <Heading>Film feedback form</Heading>
         </CardHeader>
         <CardBody>
-          <Text>
+          <Box>
             <p>Thank you for participating in the filmfestival!</p>
             <p>Please fill out this short survey so we can record yourfeedback.</p>
-          </Text>
+          </Box>
         </CardBody>
       </Card>
       <Card size="lg" borderRadius="lg">
