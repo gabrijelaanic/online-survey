@@ -1,4 +1,4 @@
-export interface Survey {
+export interface SurveyDto {
   data: {
     type: string;
     id: string;
