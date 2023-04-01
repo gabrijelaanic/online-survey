@@ -1,8 +1,9 @@
 import { DynamicFieldData } from '../../common/dynamic-form-types';
-import { SurveyDto } from '../models/surveyDto';
-import { RegisterOptions } from 'react-hook-form';
+import { FieldValues, RegisterOptions } from 'react-hook-form';
+import { SurveyDTO } from '../models/surveyDTO';
+import { AnswerBM, SurveyBM } from '../models/surveyBM';
 
-export function mapDataToFileds(surveyData: SurveyDto): DynamicFieldData[] {
+export function mapSurveyToDataFileds(surveyData: SurveyDTO): DynamicFieldData[] {
   let dynamicFileds = surveyData.data.attributes.questions.map((question) => {
     return {
       fieldName: question.questionId,
@@ -17,4 +18,24 @@ export function mapDataToFileds(surveyData: SurveyDto): DynamicFieldData[] {
   });
 
   return dynamicFileds;
+}
+
+export function mapDataFiledsToSurvey(fieldValues: FieldValues): SurveyBM {
+  const answers = Object.keys(fieldValues).map((key) => {
+    return {
+      questionId: key,
+      answer: parseInt(fieldValues[key]) || fieldValues[key],
+    } as AnswerBM;
+  });
+
+  const survey = {
+    data: {
+      type: 'surveyAnswers',
+      attributes: {
+        answers: answers,
+      },
+    },
+  } as SurveyBM;
+
+  return survey;
 }

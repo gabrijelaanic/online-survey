@@ -17,7 +17,7 @@ export default {
         {
           questionId: 'review',
           questionType: 'rating',
-          label: 'How would you rate the film? (1 - Very bad, 5 - Verygood)',
+          label: 'How would you rate the film? (1 - Very bad, 5 - Very good)',
           required: true,
           attributes: { min: 1, max: 5 },
         },

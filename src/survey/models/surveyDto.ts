@@ -1,6 +1,6 @@
-export interface SurveyDto {
+export interface SurveyDTO {
   data: {
-    type: string;
+    type: 'surveys';
     id: string;
     attributes: {
       title: string;

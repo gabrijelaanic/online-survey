@@ -1,8 +1,8 @@
 import survey from '../../data/surveyData';
-import { SurveyDto } from '../models/surveyDto';
+import { SurveyDTO } from '../models/surveyDTO';
 
 const useSurvey = () => ({
-  surveyData: survey as SurveyDto,
+  surveyData: survey as SurveyDTO,
 });
 
 export default useSurvey;

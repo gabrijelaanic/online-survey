@@ -12,7 +12,7 @@ import {
   Box,
   FormErrorMessage,
 } from '@chakra-ui/react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { DynamicFieldData } from '../../common/dynamic-form-types';
 import parse from 'html-react-parser';
 import DynamicFormControl from '../../common/components/DynamicFormControl';
@@ -22,19 +22,16 @@ interface Props {
   formFields: DynamicFieldData[];
   title?: string;
   description?: string;
+  onSubmit: (filedValues: FieldValues) => void;
 }
 
-const Survey = ({ formFields, title, description }: Props) => {
+const Survey = ({ formFields, title, description, onSubmit }: Props) => {
   const formMethods = useForm();
   const {
     handleSubmit,
     getFieldState,
     formState: { isSubmitting, errors },
   } = formMethods;
-
-  function onSubmit(data: any) {
-    console.log(data);
-  }
 
   return (
     <Stack spacing="4" marginY={4}>
@@ -45,11 +42,7 @@ const Survey = ({ formFields, title, description }: Props) => {
               <Heading>{title}</Heading>
             </CardHeader>
           )}
-          {description && (
-            <CardBody>
-              <Box>{parse(description)}</Box>
-            </CardBody>
-          )}
+          <CardBody>{description && <Box>{parse(description)}</Box>}</CardBody>
         </Card>
       )}
       <Card size="lg" borderRadius="lg">
