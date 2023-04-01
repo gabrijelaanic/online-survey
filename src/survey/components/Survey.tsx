@@ -10,11 +10,13 @@ import {
   Button,
   HStack,
   Box,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { DynamicFieldData } from '../../common/dynamic-form-types';
 import parse from 'html-react-parser';
 import DynamicFormControl from '../../common/components/DynamicFormControl';
+import { ErrorMessage } from '@hookform/error-message';
 
 interface Props {
   formFields: DynamicFieldData[];
@@ -24,11 +26,16 @@ interface Props {
 
 const Survey = ({ formFields, title, description }: Props) => {
   const formMethods = useForm();
-  const { handleSubmit } = formMethods;
+  const {
+    handleSubmit,
+    getFieldState,
+    formState: { isSubmitting, errors },
+  } = formMethods;
 
   function onSubmit(data: any) {
     console.log(data);
   }
+
   return (
     <Stack spacing="4" marginY={4}>
       {(title || description) && (
@@ -50,16 +57,21 @@ const Survey = ({ formFields, title, description }: Props) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <VStack spacing="4" marginBottom={6}>
               <FormProvider {...formMethods}>
-                {formFields.map((control, index) => (
-                  <FormControl key={index}>
+                {formFields.map((control) => (
+                  <FormControl key={control.fieldName} isInvalid={getFieldState(control.fieldName).invalid}>
                     <FormLabel>{control.label}</FormLabel>
                     <DynamicFormControl dynamicFieldData={control} />
+                    <FormErrorMessage>
+                      <ErrorMessage errors={errors} name={control.fieldName} as={<p></p>} />
+                    </FormErrorMessage>
                   </FormControl>
                 ))}
               </FormProvider>
             </VStack>
             <HStack justifyContent="end">
-              <Button type="submit">Submit</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Submit'}
+              </Button>
             </HStack>
           </form>
         </CardBody>

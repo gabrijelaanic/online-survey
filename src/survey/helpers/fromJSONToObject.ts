@@ -9,9 +9,9 @@ export function mapDataToFileds(surveyData: SurveyDto): DynamicFieldData[] {
       inputType: question.questionType,
       label: question.label,
       config: {
-        required: question.required ? `${question.label} is required` : null,
-        min: question.attributes?.min,
-        max: question.attributes?.max,
+        required: question.required ? `Field is required` : null,
+        min: { value: question.attributes?.min, message: `Minimum value is ${question.attributes?.min}` },
+        max: { value: question.attributes?.max, message: `Maximum value is ${question.attributes?.max}` },
       } as RegisterOptions,
     } as DynamicFieldData;
   });
