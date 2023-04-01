@@ -3,8 +3,6 @@ import {
   VStack,
   FormControl,
   FormLabel,
-  Input,
-  Select,
   Card,
   CardBody,
   CardHeader,
@@ -16,6 +14,7 @@ import {
 import { FormProvider, useForm } from 'react-hook-form';
 import { DynamicFieldData } from '../../common/dynamic-form-types';
 import parse from 'html-react-parser';
+import DynamicFormControl from '../../common/components/DynamicFormControl';
 
 interface Props {
   formFields: DynamicFieldData[];
@@ -25,6 +24,11 @@ interface Props {
 
 const Survey = ({ formFields, title, description }: Props) => {
   const formMethods = useForm();
+  const { handleSubmit } = formMethods;
+
+  function onSubmit(data: any) {
+    console.log(data);
+  }
   return (
     <Stack spacing="4" marginY={4}>
       {(title || description) && (
@@ -43,12 +47,13 @@ const Survey = ({ formFields, title, description }: Props) => {
       )}
       <Card size="lg" borderRadius="lg">
         <CardBody>
-          <form>
-            <VStack spacing="4">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <VStack spacing="4" marginBottom={6}>
               <FormProvider {...formMethods}>
                 {formFields.map((control, index) => (
                   <FormControl key={index}>
                     <FormLabel>{control.label}</FormLabel>
+                    <DynamicFormControl dynamicFieldData={control} />
                   </FormControl>
                 ))}
               </FormProvider>
