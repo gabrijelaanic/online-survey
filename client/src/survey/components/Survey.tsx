@@ -11,6 +11,7 @@ import {
   HStack,
   Box,
   FormErrorMessage,
+  Text,
 } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { DynamicFieldData } from '../../common/models/dynamic-form-types';
@@ -34,7 +35,7 @@ const Survey = ({ formFields, title, description, onSubmit }: Props) => {
   } = formMethods;
 
   return (
-    <Stack spacing="4" marginY={4}>
+    <Stack spacing="4">
       {(title || description) && (
         <Card size="lg" borderRadius="lg">
           {title && (
@@ -47,26 +48,29 @@ const Survey = ({ formFields, title, description, onSubmit }: Props) => {
       )}
       <Card size="lg" borderRadius="lg">
         <CardBody>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <VStack spacing="4" marginBottom={6}>
-              <FormProvider {...formMethods}>
-                {formFields.map((control) => (
-                  <FormControl key={control.fieldName} isInvalid={getFieldState(control.fieldName).invalid}>
-                    <FormLabel>{control.label}</FormLabel>
-                    <DynamicFormControl dynamicFieldData={control} />
-                    <FormErrorMessage>
-                      <ErrorMessage errors={errors} name={control.fieldName} as={<p></p>} />
-                    </FormErrorMessage>
-                  </FormControl>
-                ))}
-              </FormProvider>
-            </VStack>
-            <HStack justifyContent="end">
-              <Button type="submit" isDisabled={isSubmitting}>
-                {isSubmitting ? 'Submitting...' : 'Submit'}
-              </Button>
-            </HStack>
-          </form>
+          {formFields.length > 0 && (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <VStack spacing="4" marginBottom={6}>
+                <FormProvider {...formMethods}>
+                  {formFields.map((control) => (
+                    <FormControl key={control.fieldName} isInvalid={getFieldState(control.fieldName).invalid}>
+                      <FormLabel>{control.label}</FormLabel>
+                      <DynamicFormControl dynamicFieldData={control} />
+                      <FormErrorMessage>
+                        <ErrorMessage errors={errors} name={control.fieldName} as={<p></p>} />
+                      </FormErrorMessage>
+                    </FormControl>
+                  ))}
+                </FormProvider>
+              </VStack>
+              <HStack justifyContent="end">
+                <Button type="submit" isDisabled={isSubmitting}>
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                </Button>
+              </HStack>
+            </form>
+          )}
+          {formFields.length == 0 && <Text>No form data. We are working on it!</Text>}
         </CardBody>
       </Card>
     </Stack>
