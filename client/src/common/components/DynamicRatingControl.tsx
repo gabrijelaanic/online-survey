@@ -12,16 +12,14 @@ const DynamicRatingControl = ({ fieldName, defaultValue, config }: Props) => {
 
   return (
     <RadioGroup defaultValue={defaultValue}>
-      <Stack spacing={5} direction="row">
-        {[...Array(config?.max?.value - config?.min?.value + 1 || 5)].map((_, index) => {
-          const radioValue = index + config?.min?.value;
-          return (
-            <Radio key={radioValue} value={radioValue.toString()} {...register(fieldName, config)}>
-              {radioValue}
-            </Radio>
-          );
-        })}
-      </Stack>
+      {[...Array(config?.max?.value - config?.min?.value + 1 || 5)].map((_, index) => {
+        const radioValue = index + config?.min?.value;
+        return (
+          <Radio key={radioValue} value={radioValue.toString()} {...register(fieldName, config)} marginRight={5}>
+            {radioValue}
+          </Radio>
+        );
+      })}
     </RadioGroup>
   );
 };
