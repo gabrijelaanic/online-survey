@@ -13,7 +13,7 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
-import { DynamicFieldData } from '../../common/dynamic-form-types';
+import { DynamicFieldData } from '../../common/models/dynamic-form-types';
 import parse from 'html-react-parser';
 import DynamicFormControl from '../../common/components/DynamicFormControl';
 import { ErrorMessage } from '@hookform/error-message';

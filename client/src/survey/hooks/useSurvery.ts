@@ -1,8 +1,6 @@
-import survey from '../../data/surveyData';
+import useData from '../../common/hooks/useData';
 import { SurveyDTO } from '../models/surveyDTO';
 
-const useSurvey = () => ({
-  surveyData: survey as SurveyDTO,
-});
+const useSurvey = () => useData<SurveyDTO>('v1/survey');
 
 export default useSurvey;

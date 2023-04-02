@@ -1,4 +1,4 @@
-import { DynamicFieldData } from '../dynamic-form-types';
+import { DynamicFieldData } from '../models/dynamic-form-types';
 import DynamicInputControl from './DynamicInputControl';
 import DynamicRatingControl from './DynamicRatingControl';
 
