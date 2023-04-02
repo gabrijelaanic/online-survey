@@ -1,11 +1,19 @@
 import { Box, Card, CardBody, CardFooter, CardHeader, Heading, Stack, StackDivider, Text } from '@chakra-ui/react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AnswerSummary } from '../models/answerSummary';
 import { Link } from '@chakra-ui/react';
+import { useEffect } from 'react';
 
 const ThankYou = () => {
   const location = useLocation();
-  const answerSummary = location.state as AnswerSummary[];
+  const answerSummary = (location.state as AnswerSummary[]) || [];
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!answerSummary.length) {
+      navigate('/');
+    }
+  }, []);
 
   return (
     <Stack spacing="4">
