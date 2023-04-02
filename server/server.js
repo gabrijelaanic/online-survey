@@ -63,6 +63,17 @@ app.post('/api/v1/survey/:id/answers', (req, resp) => {
   return resp.send(result);
 });
 
+app.post('/api/v1/survey/:id/answers/bad-request', (req, res) => {
+  var errors = {
+    errors: [
+      { source: { pointer: 'data/attributes/answers/film' }, detail: 'The value is required' },
+      { source: { pointer: 'data/attributes/answers/review' }, detail: 'The value is required' },
+    ],
+  };
+
+  return res.status(422).send({ error: errors });
+});
+
 app.listen(5000, () => {
   console.log('Server started on port 5000');
 });

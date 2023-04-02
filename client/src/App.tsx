@@ -1,4 +1,4 @@
-import { HStack, Spinner } from '@chakra-ui/react';
+import { Box, HStack, ListItem, Spinner, Text, UnorderedList } from '@chakra-ui/react';
 import { FieldValues } from 'react-hook-form';
 import { NavigateOptions, useNavigate } from 'react-router-dom';
 import Survey from './survey/components/Survey';
@@ -10,12 +10,15 @@ import { useToast } from '@chakra-ui/react';
 import { AnswersDTO } from './survey/models/answersDTO';
 import { QuestionDTO } from './survey/models/surveyDTO';
 import { AnswerSummary } from './survey/models/answerSummary';
+import { useState } from 'react';
+import { FormError } from './common/models/form-error';
 
 function App() {
   const { data, error, isLoading } = useSurvey();
   const formFields = mapSurveyToDataFileds(data);
   const navigate = useNavigate();
   const toast = useToast();
+  const [formErrors, setformErrors] = useState<FormError[]>();
 
   const onSurveySubmit = async (fieldValues: FieldValues) => {
     const surveyBM = mapDataFiledsToSurvey(fieldValues);
@@ -40,14 +43,28 @@ function App() {
         navigate('/thank-you', { state: answerSummary } as NavigateOptions);
       })
       .catch((error) => {
-        console.log(error);
-        toast({
-          title: 'Error',
-          description: "Something went wrong. We're working on it!",
-          status: 'error',
-          duration: 7000,
-          isClosable: true,
-        });
+        if (error.response.status == 422 && error.response.data?.error) {
+          const errors = error.response.data.error.errors;
+          let formErrors = [] as { fieldName: string; errorMessage: string }[];
+          errors.map((error: any) => {
+            const questionId = error.source.pointer.split('/').pop();
+            const label =
+              data?.data.attributes.questions.find((question) => question.questionId == questionId)?.label || '';
+            formErrors.push({
+              fieldName: label,
+              errorMessage: error.detail,
+            } as FormError);
+          });
+          setformErrors(formErrors);
+        } else {
+          toast({
+            title: 'Error',
+            description: "Something went wrong. We're working on it!",
+            status: 'error',
+            duration: 7000,
+            isClosable: true,
+          });
+        }
       });
   };
 
@@ -61,12 +78,28 @@ function App() {
     );
 
   return (
-    <Survey
-      formFields={formFields}
-      title={data?.data.attributes.title}
-      description={data?.data.attributes.description}
-      onSubmit={onSurveySubmit}
-    />
+    <>
+      <Survey
+        formFields={formFields}
+        title={data?.data.attributes.title}
+        description={data?.data.attributes.description}
+        onSubmit={onSurveySubmit}
+      />
+      {formErrors && (
+        <Box marginY={3} color="red.600">
+          <Text>The following error(s) occured:</Text>
+          <UnorderedList>
+            {formErrors.map((formError) => {
+              return (
+                <ListItem key={formError.fieldName}>
+                  Field "{formError.fieldName}" with error "{formError.errorMessage}"
+                </ListItem>
+              );
+            })}
+          </UnorderedList>
+        </Box>
+      )}
+    </>
   );
 }
 
