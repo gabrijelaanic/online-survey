@@ -36,7 +36,7 @@ const ThankYou = () => {
               return (
                 <Box key={summary.label}>
                   <Heading size="s">{summary.label}</Heading>
-                  <Text pt="2">{summary.answer}</Text>
+                  <Text pt="2">{summary.answer || '-'}</Text>
                 </Box>
               );
             })}

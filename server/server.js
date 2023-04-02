@@ -19,7 +19,7 @@ app.get('/api/v1/survey', (req, res) => {
       attributes: {
         title: 'Film feedback form',
         description:
-          '<p>Thank you for participating in the filmfestival!</p><p>Please fill out this short survey so we can record yourfeedback.</p>',
+          '<p>Thank you for participating in the filmfestival!</p><p>Please fill out this short survey so we can record your feedback.</p>',
         questions: [
           {
             questionId: 'film',

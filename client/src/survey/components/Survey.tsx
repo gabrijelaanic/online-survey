@@ -53,7 +53,11 @@ const Survey = ({ formFields, title, description, onSubmit }: Props) => {
               <VStack spacing="4" marginBottom={6}>
                 <FormProvider {...formMethods}>
                   {formFields.map((control) => (
-                    <FormControl key={control.fieldName} isInvalid={getFieldState(control.fieldName).invalid}>
+                    <FormControl
+                      key={control.fieldName}
+                      isInvalid={getFieldState(control.fieldName).invalid}
+                      isRequired={Boolean(control.config?.required)}
+                    >
                       <FormLabel>{control.label}</FormLabel>
                       <DynamicFormControl dynamicFieldData={control} />
                       <FormErrorMessage>
