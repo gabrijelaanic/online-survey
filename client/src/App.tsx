@@ -1,4 +1,4 @@
-import { Box, HStack, ListItem, Spinner, Text, UnorderedList } from '@chakra-ui/react';
+import { Box, Card, CardBody, ListItem, Skeleton, SkeletonText, Text, UnorderedList } from '@chakra-ui/react';
 import { FieldValues } from 'react-hook-form';
 import { NavigateOptions, useNavigate } from 'react-router-dom';
 import Survey from './survey/components/Survey';
@@ -72,9 +72,12 @@ function App() {
 
   if (isLoading)
     return (
-      <HStack justifyContent="center" marginTop={6}>
-        <Spinner label="Loading..." size="xl" />
-      </HStack>
+      <Card size="lg" borderRadius="lg">
+        <CardBody>
+          <Skeleton height="50px" />
+          <SkeletonText mt="6" noOfLines={2} spacing="2" skeletonHeight="6" />
+        </CardBody>
+      </Card>
     );
 
   return (
