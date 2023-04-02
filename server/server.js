@@ -1,13 +1,15 @@
 const express = require('express');
 const app = express();
 
-app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  next();
-});
+const cors = require('cors');
+
+app.use(cors());
+
+// for parsing the body in POST request
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.get('/api/v1/survey', (req, res) => {
   res.json({
@@ -37,6 +39,28 @@ app.get('/api/v1/survey', (req, res) => {
       },
     },
   });
+});
+
+app.post('/api/v1/survey/:id/answers', (req, resp) => {
+  var surveyAnswers = req.body;
+  const result = {
+    data: {
+      type: 'surveyAnswers',
+      id: '9c7160a4-e9ad-499e-92f6-07d7cdb0382c',
+      attributes: {
+        answers: surveyAnswers.data.attributes.answers,
+      },
+      relationships: {
+        survey: {
+          data: {
+            type: 'surveys',
+            id: req.params.id,
+          },
+        },
+      },
+    },
+  };
+  return resp.send(result);
 });
 
 app.listen(5000, () => {

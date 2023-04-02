@@ -62,7 +62,7 @@ const Survey = ({ formFields, title, description, onSubmit }: Props) => {
               </FormProvider>
             </VStack>
             <HStack justifyContent="end">
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" isDisabled={isSubmitting}>
                 {isSubmitting ? 'Submitting...' : 'Submit'}
               </Button>
             </HStack>

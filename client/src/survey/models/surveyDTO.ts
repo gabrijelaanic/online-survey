@@ -5,13 +5,15 @@ export interface SurveyDTO {
     attributes: {
       title: string;
       description: string;
-      questions: {
-        questionId: string;
-        questionType: 'text' | 'rating';
-        label: string;
-        required: boolean;
-        attributes: any;
-      }[];
+      questions: QuestionDTO[];
     };
   };
+}
+
+export interface QuestionDTO {
+  questionId: string;
+  questionType: 'text' | 'rating';
+  label: string;
+  required: boolean;
+  attributes: any;
 }

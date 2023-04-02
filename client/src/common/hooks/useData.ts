@@ -15,13 +15,11 @@ const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig, deps?:
       apiClient
         .get<T>(endpoint, { signal: controller.signal, ...requestConfig })
         .then((response) => {
-          console.log(response);
           setData(response.data);
           setLoading(false);
         })
         .catch((error) => {
           if (error instanceof CanceledError) return;
-          console.log(error);
           let errorMessage = `Something went wrong. We're working on it!`;
           if (error.errors?.length) {
             errorMessage = error.errors[0].detail;
